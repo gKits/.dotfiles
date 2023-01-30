@@ -1,0 +1,14 @@
+# Ignore everything
+/*
+# Except:
+# these files
+!.gitignore
+!.zshrc
+!.gitconfig
+# and the config directories
+!.config/
+.config/*
+!.config/nvim
+!.config/i3
+!.config/termite
+!.config/rofi
