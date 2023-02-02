@@ -188,6 +188,8 @@ for_window [window_role="task_dialog"] floating enable
 
 # bitwarden is floating window by default
 for_window [class="Bitwarden"] floating enable
+# blueman is floating window by default
+for_window [class="Blueman-manager"] floating enable
 
 # i3 bar
 bar {
