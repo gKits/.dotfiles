@@ -22,6 +22,8 @@ return require('packer').startup(function(use)
 
     use('jiangmiao/auto-pairs')
 
+    use('theprimeagen/vim-be-good')
+
     use {
         'VonHeikemen/lsp-zero.nvim',
         requires = {
