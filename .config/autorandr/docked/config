@@ -11,19 +11,21 @@ off
 output DP-2-2-1
 off
 output DP-2-2-2
-crtc 2
-mode 1280x800
-pos 0x0
-rate 59.81
-rotate inverted
-x-prop-audio auto
-x-prop-broadcast_rgb Automatic
-x-prop-max_bpc 12
-x-prop-non_desktop 0
+off
+output DP-2-4
+off
+output DP-1-1
+off
+output DP-1-2
+off
+output DP-1-2-1
+off
+output DP-1-2-2
+off
 output DP-2-1
 crtc 1
 mode 2560x1440
-pos 0x800
+pos 0x0
 rate 59.95
 x-prop-audio auto
 x-prop-broadcast_rgb Automatic
@@ -32,7 +34,7 @@ x-prop-non_desktop 0
 output eDP-1
 crtc 0
 mode 1920x1080
-pos 0x2240
+pos 0x1440
 primary
 rate 59.98
 x-prop-broadcast_rgb Automatic
