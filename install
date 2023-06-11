@@ -1,0 +1,9 @@
+# !/usr/bin/env bash
+DOTFILES=$HOME/.dotfiles
+
+for dir in $DOTFILES
+do
+    echo "stowing $dir"
+    stow -D $dir
+    stow $dir
+done
