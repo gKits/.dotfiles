@@ -1,9 +1,9 @@
 # !/usr/bin/env bash
-DOTFILES=$HOME/.dotfiles
-
-for dir in $DOTFILES
+pushd $HOME/.dotfiles
+for dir in ./*/
 do
-    echo "stowing $dir"
-    stow -D $dir
-    stow $dir
+    echo "stowing $(basename "$dir")"
+    stow -D $(basename "$dir")
+    stow $(basename "$dir")
 done
+popd
