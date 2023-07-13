@@ -45,19 +45,17 @@ fi
 selected_name=$(echo $REPO_NAME | tr . _)
 tmux_running=$(pgrep tmux)
 
-echo $selected_name
-
 if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
-    tmux new-session -s $selected_name -c ~/repos/$REPO_NAME
+    tmux new-session -s $selected_name -c $selected
     exit 0
 fi
 
 if ! tmux has-session -t=$selected_name 2> /dev/null; then
-    tmux new-session -ds $selected_name -c ~/repos/$REPO_NAME
+    tmux new-session -ds $selected_name -c $selected
 fi
 
 if tmux server-info 2> /dev/null; then
-    exec tmux switch-client -t $selected_name
+    tmux switch-client -t $selected_name
 fi
 
-exec tmux attach -client -t $selected_name
+tmux attach -client -t $selected_name
