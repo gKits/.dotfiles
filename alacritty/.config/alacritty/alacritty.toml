@@ -1,0 +1,4 @@
+import = ["~/.config/alacritty/rose-pine-moon.toml"]
+
+[env]
+TERM = "xterm-256color"
