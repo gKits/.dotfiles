@@ -4,10 +4,10 @@
 set $mod Mod4
 
 # Direction Keys
-set $left n
-set $down e
-set $up i
-set $right o
+set $left h
+set $down j
+set $up k
+set $right l
 
 # Terminal emulator
 set $term alacritty
