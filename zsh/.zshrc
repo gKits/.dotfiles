@@ -34,3 +34,5 @@ SPACESHIP_CHAR_SUFFIX=" "
 export GOPATH=$HOME/go
 export PATH=/$HOME/.local/bin:$PATH
 export PATH=$GOROOT/bin:$GOPATH/bin:$PATH
+
+source <(fzf --zsh)
