@@ -1,0 +1,126 @@
+{
+  "layer": "top",
+  "position": "top",
+  "mod": "dock",
+  "exclusive": true,
+  "passthrough": false,
+  "gtk-layer-shell": true,
+  "height": 30,
+  // "spacing": 4,
+  "modules-left": ["sway/workspaces", "sway/mode"],
+  "modules-right": [
+    "tray",
+    "network",
+    "bluetooth",
+    "temperature",
+    "memory",
+    "battery",
+    "pulseaudio",
+    "backlight",
+    "clock"
+  ],
+
+  "sway/workspaces": {
+      "disable-scroll": true,
+      "all-outputs": true,
+      "format": "{name}",
+  },
+  "sway/mode": {
+      "format": "<span style=\"italic\">{}</span>"
+  },
+
+  "tray": {
+    "icon-size": 14,
+    "spacing": 5
+  },
+
+  "clock": {
+    "format": "{:%R    %d/%m}",
+    "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
+  },
+
+  "backlight": {
+    "format": "{icon}  {percent}",
+    "format-icons": ["󰃞", "󰃟", "󰃠"],
+    "on-scroll-up": "brightnessctl set 1%+",
+    "on-scroll-down": "brightnessctl set 1%-",
+    "min-length": 5
+  },
+
+  "battery": {
+    "states": {
+      "good": 95,
+      "warning": 30,
+      "critical": 20
+    },
+    "format": "{icon} {capacity}%",
+    "format-charging": " {capacity}%",
+    "format-plugged": " {capacity}%",
+    "format-alt": "{time} {icon}",
+    "format-icons": ["󰂎", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󱈑"]
+  },
+
+  "pulseaudio": {
+    "format": "{icon}  {volume}",
+    "tooltip": false,
+    "format-muted": "🔈 X",
+    "on-click-right": "pavucontrol",
+    "scroll-step": 5,
+    "format-icons": {
+      "headphone": "🔈",
+      "hands-free": "🔈",
+      "headset": "🔈",
+      "phone": "",
+      "portable": "",
+      "car": "",
+      "default": ["🔈", "🔈", "🔈"]
+    },
+    "min-length": 5
+  },
+
+  "pulseaudio#microphone": {
+    "format": "{format_source}",
+    "format-source": " {volume}%",
+    "format-source-muted": " Muted",
+    "on-click": "pamixer --default-source -t",
+    "on-scroll-up": "pamixer --default-source -i 5",
+    "on-scroll-down": "pamixer --default-source -d 5",
+    "scroll-step": 5
+  },
+
+  "temperature": {
+    "thermal-zone": 1,
+    "format": " {temperatureC}°C",
+    "critical-threshold": 80,
+    "format-critical": "{temperatureC}°C "
+  },
+
+  "memory": {
+    "interval": 30,
+    "format": "  {}%",
+    "max-length": 10,
+    "tooltip": true,
+    "tooltip-format": "Memory - {used:0.1f}GB used",
+    "on-click": "alacritty -T htop -e htop",
+    "min-length": 6,
+  },
+
+  "network": {
+    "format-wifi": "   {signalStrength}% {ipaddr}/{cidr}",
+    "format-ethernet": "{ipaddr}/{cidr}",
+    "tooltip-format": "{essid} - {ifname} via {gwaddr}",
+    "format-linked": "{ifname} (No IP)",
+    "format-disconnected": "Disconnected ⚠",
+    "format-alt": "{ifname}:{essid} {ipaddr}/{cidr}",
+  },
+
+  "bluetooth": {
+    "format": " {status}",
+    "format-disabled": "", // an empty format will hide the module
+    "format-connected": " {num_connections}",
+    "tooltip-format": "{device_alias}",
+    "tooltip-format-connected": " {device_enumerate}",
+    "tooltip-format-enumerate-connected": "{device_alias}",
+    "on-click-right": "blueman-manager"
+  },
+}

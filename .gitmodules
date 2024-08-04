@@ -1,3 +1,18 @@
 [submodule "nvim/.config/nvim"]
 	path = nvim/.config/nvim
-	url = https://github.com/gKits/nvim-config
+	url = https://github.com/gkits/nvim
+[submodule "waybar/.config/waybar/themes/rose-pine"]
+	path = waybar/.config/waybar/themes/rose-pine
+	url = https://github.com/rose-pine/waybar
+[submodule "tmux/.config/tmux/plugins/tpm"]
+	path = tmux/.config/tmux/plugins/tpm
+	url = https://github.com/tmux-plugins/tpm
+[submodule "zsh/.config/zsh/themes/spaceship-prompt"]
+	path = zsh/.config/zsh/themes/spaceship-prompt
+	url = https://github.com/spaceship-prompt/spaceship-prompt
+[submodule "zsh/.config/zsh/plugins/zsh-autosuggestions"]
+	path = zsh/.config/zsh/plugins/zsh-autosuggestions
+	url = https://github.com/zsh-users/zsh-autosuggestions
+[submodule "zsh/.config/zsh/plugins/fast-syntax-highlighting"]
+	path = zsh/.config/zsh/plugins/fast-syntax-highlighting
+	url = https://github.com/zdharma-continuum/fast-syntax-highlighting
