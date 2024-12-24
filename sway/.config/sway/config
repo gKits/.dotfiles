@@ -17,6 +17,8 @@ set $menu wofi --show drun
 
 ## Output configuration
 
+font pango:FiraCodeMono 10
+
 # Wallpaper
 output * bg $HOME/.pictures/blockwavemoon.png fill
 
@@ -52,6 +54,10 @@ input "2362:628:PIXA3854:00_093A:0274_Touchpad" {
     tap enabled
     natural_scroll enabled
     middle_emulation enabled
+}
+
+input "10429:2359:UGTABLET_UGEE_S640W" {
+    map_to_output "ViewSonic Corporation VX2705-2KP W6Z204900771"  
 }
 
 ## Power settings
