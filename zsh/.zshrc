@@ -19,7 +19,7 @@ SPACESHIP_PROMPT_ORDER=(
   dir
   host
   git
-  hg
+  golang
   exec_time
   line_sep
   jobs
@@ -36,3 +36,9 @@ export PATH=/$HOME/.local/bin:$PATH
 export PATH=$GOROOT/bin:$GOPATH/bin:$PATH
 
 source <(fzf --zsh)
+
+alias nv="nvim"
+alias vim="nvim"
+alias la="ls -lAC --color=auto"
+alias ll="ls -ophA --color=auto --time-style=iso"
+alias dps='docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Image}}\t{{.ID}}"'
