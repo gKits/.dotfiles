@@ -2,9 +2,6 @@
 	path = nvim/.config/nvim
 	url = https://github.com/gkits/nvim
     branch = main
-[submodule "waybar/.config/waybar/themes/rose-pine"]
-	path = waybar/.config/waybar/themes/rose-pine
-	url = https://github.com/rose-pine/waybar
 [submodule "tmux/.config/tmux/plugins/tpm"]
 	path = tmux/.config/tmux/plugins/tpm
 	url = https://github.com/tmux-plugins/tpm

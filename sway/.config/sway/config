@@ -20,20 +20,7 @@ set $menu wofi --show drun
 font pango:FiraCodeMono 10
 
 # Wallpaper
-output * bg $HOME/.pictures/blockwavemoon.png fill
-
-# Output devices
-output "ViewSonic Corporation VX2705-2KP W6Z204900771" {
-    mode 2560x1440@59Hz
-    adaptive_sync on
-    pos 0 0
-    transform normal
-}
-output "BNQ BenQ BL2411 G2E02266019" {
-    mode 1920x1080@59Hz
-    pos 2560 0
-    transform 90
-}
+output * bg #000000 solid_color
 output "eDP-1" {
     scale 2
     mode 2256x1504@59Hz
@@ -194,6 +181,7 @@ bindsym $mod+r mode "resize"
 
 
 ### Status Bar
+mouse_warping none
 bar {
     swaybar_command waybar
 }
