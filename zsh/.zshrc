@@ -1,44 +1,70 @@
-export ZSH=$HOME/.config/zsh
+# setup zinit plugin manager
+ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
+[ ! -d $ZINIT_HOME ] && mkdir -p "$(dirname $ZINIT_HOME)"
+[ ! -d $ZINIT_HOME/.git ] && git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
+source "${ZINIT_HOME}/zinit.zsh"
 
-# history config
-HISTFILE=$ZSH/.histfile
-HISTSIZE=1000
-SAVEHIST=1000
-setopt HIST_IGNORE_ALL_DUPS
-setopt HIST_FIND_NO_DUPS
+# install p10k
+zinit ice depth=1; zinit light romkatv/powerlevel10k
 
-# source themes and plugins
-source $ZSH/themes/spaceship-prompt/spaceship.zsh-theme
-source $ZSH/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
-source $ZSH/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-fpath=($ZSH/plugins/zsh-completions/src $fpath)
+# install plugins
+zinit light zsh-users/zsh-syntax-highlighting
+zinit light zsh-users/zsh-completions
+zinit light zsh-users/zsh-autosuggestions
+zinit light Aloxaf/fzf-tab
 
-# spaceship config
-SPACESHIP_PROMPT_ORDER=(
-  user
-  dir
-  host
-  git
-  golang
-  exec_time
-  line_sep
-  jobs
-  exit_code
-  char
-)
-SPACESHIP_USER_SHOW=always
-SPACESHIP_PROMPT_ADD_NEWLINE=true
-SPACESHIP_CHAR_SYMBOL="❯"
-SPACESHIP_CHAR_SUFFIX=" "
+# install snippets
+zinit snippet OMZP::sudo
+zinit snippet OMZP::command-not-found
 
-export GOPATH=$HOME/go
-export PATH=/$HOME/.local/bin:$PATH
-export PATH=$GOROOT/bin:$GOPATH/bin:$PATH
+# load completions
+autoload -U compinit && compinit
+zinit cdreplay -q
 
+# history settings
+HISTSIZE=5000
+HISTFILE=$ZSH/.zhistory
+SAVEHIST=5000
+HISTDUP=erase
+setopt appendhistory
+setopt sharehistory
+setopt hist_ignore_space
+setopt hist_ignore_all_dups
+setopt hist_ignore_dups
+setopt hist_save_no_dups
+setopt hist_find_no_dups
+
+# completion settings
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+zstyle ':completion:*' menu no
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
+
+# shell integrations
 source <(fzf --zsh)
 
+# aliases
 alias nv="nvim"
 alias vim="nvim"
+alias ls="ls --color=auto"
 alias la="ls -lAC --color=auto"
 alias ll="ls -ophA --color=auto --time-style=iso"
 alias dps='docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Image}}\t{{.ID}}"'
+
+
+# environment variables
+export EDITOR=nvim
+
+## wayland
+export XDG_CURRENT_DESKTOP=sway
+export MOZ_DBUS_REMOTE=1
+export MOZ_ENABLE_WAYLAND=1
+
+## go
+export GOPATH=$HOME/go
+export PATH=$GOROOT/bin:$GOPATH/bin:$PATH
+export GOLINES_LENGTH=120
+
+## custom scripts
+export PATH=$HOME/.local/scripts:$PATH
+export PATH=$HOME/.local/bin:$PATH
