@@ -1,0 +1,17 @@
+alacritty
+blueman-applet
+fzf
+git
+grim
+mako
+neovim
+nm-applet
+ripgrep
+slurp
+sway
+swaylock
+tmux
+waybar
+wl-clipboard
+wofi
+zsh
