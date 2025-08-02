@@ -3,6 +3,7 @@ blueman-applet
 fzf
 git
 grim
+kanshi
 mako
 neovim
 nm-applet
@@ -14,4 +15,5 @@ tmux
 waybar
 wl-clipboard
 wofi
+zig
 zsh
