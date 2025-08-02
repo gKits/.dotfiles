@@ -10,9 +10,10 @@ for output in $(swaymsg -t get_outputs | grep -o '"name": *"[^"]*"' | grep -o '"
   grim -o $output $image
 done
 
-# printf '%s\n' "${images[@]}" | xargs -P 0 -I{} convert -blur 0x8 {} {}
-convert -scale 5% -scale 2000% ${images[@]} ${images[@]}
-
-
-swaylock ${swaylock_args[@]} -s center
+magick ${images[@]} -scale 5% -scale 2000% ${images[@]} >/dev/null 2>&1
+if [ $? -eq 0 ]; then
+    swaylock ${swaylock_args[@]} -f -s center
+else
+    swaylock -f -c 000000 -s center
+fi
 rm ${images[@]}
