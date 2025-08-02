@@ -8,7 +8,7 @@
 keyboard_input_name="1:1:AT_Translated_Set_2_keyboard"
 
 # Date and time
-date_and_week=$(date "+%Y/%m/%d (w%-V)")
+date=$(date "+%d %b")
 current_time=$(date "+%H:%M")
 
 #############
@@ -39,60 +39,61 @@ loadavg_5min=$(cat /proc/loadavg | awk -F ' ' '{print $2}')
 # refresh on the bar
 #weather=$(curl -Ss 'https://wttr.in/Pontevedra?0&T&Q&format=1')
 
-if [ $battery_status = "discharging" ];
-then
-    battery_pluggedin="⚠"
-else
-    battery_pluggedin="⚡"
+battery_charge_icon="󰂄"
+if [ $battery_status = "discharging" ]; then
+    battery_charge_num=${battery_charge%\%}
+    if [ $battery_charge_num -ge 95 ]; then
+        battery_charge_icon="󰁹"
+    elif [ $battery_charge_num -ge 90 ]; then
+        battery_charge_icon="󰂂"
+    elif [ $battery_charge_num -ge 80 ]; then
+        battery_charge_icon="󰂁"
+    elif [ $battery_charge_num -ge 70 ]; then
+        battery_charge_icon="󰂀"
+    elif [ $battery_charge_num -ge 60 ]; then
+        battery_charge_icon="󰁿"
+    elif [ $battery_charge_num -ge 50 ]; then
+        battery_charge_icon="󰁾"
+    elif [ $battery_charge_num -ge 40 ]; then
+        battery_charge_icon="󰁽"
+    elif [ $battery_charge_num -ge 30 ]; then
+        battery_charge_icon="󰁼"
+    elif [ $battery_charge_num -ge 20 ]; then
+        battery_charge_icon="󰁻"
+    elif [ $battery_charge_num -ge 10 ]; then
+        battery_charge_icon="󰁺"
+    else
+        battery_charge_icon="󰂎"
+    fi
 fi
 
-battery_charge_icon=""
-if [ $battery_charge > 20 ]
-then
-    battery_charge_icon=""
-elif [ $battery_charge > 45 ]
-then
-    battery_charge_icon=""
-elif [ $battery_charge > 70 ]
-then
-    battery_charge_icon=""
-elif [ $battery_charge > 95 ]
-then
-    battery_charge_icon=""
-fi
 
-if ! [ $network ]
-then
+if ! [ $network ]; then
    network_active="⛔"
 else
    network_active="⇆"
 fi
 
-if [ $player_status = "Playing" ]
-then
+if [ $player_status = "Playing" ]; then
     song_status='▶'
-elif [ $player_status = "Paused" ]
-then
+elif [ $player_status = "Paused" ]; then
     song_status='⏸'
 else
     song_status='⏹'
 fi
 
-if [ ${#audio_volume} == 0 ]
-then
+if [ ${#audio_volume} == 0 ]; then
     audio_volume="0"
 fi
 
-if [ $audio_is_muted = "true" ]
-then
-    audio_active='🔇'
+if [ $audio_is_muted = "true" ]; then
+    audio_active=''
 else
-    audio_active='🔊'
+    audio_active=''
 fi
 
-if [ ${#media_song} -gt 20 ]
-then
-    media_song="${media_song:0:17}..."
+if [ ${#media_song} -gt 25 ]; then
+    media_song="${media_song:0:22}..."
 fi
 
-echo "🎧 $song_status $media_artist - $media_song | ⌨ $language | $network_active $interface_easyname | 🏋 $loadavg_5min | $audio_active $audio_volume% | $battery_pluggedin $battery_charge $battery_charge_icon   | $date_and_week 🕘 $current_time"
+echo " $song_status $media_artist - $media_song | $network_active $interface_easyname |   $loadavg_5min | $audio_active   $audio_volume% | $battery_pluggedin $battery_charge $battery_charge_icon   |   $date 󰥔  $current_time"
