@@ -3,6 +3,7 @@ blueman-applet
 fzf
 git
 grim
+ImageMagick
 kanshi
 mako
 neovim
