@@ -33,8 +33,9 @@ HISTSIZE=5000
 HISTFILE=$ZSH/.zhistory
 SAVEHIST=5000
 HISTDUP=erase
-setopt appendhistory
-setopt sharehistory
+# setopt appendhistory
+# setopt sharehistory
+setopt inc_append_history
 setopt hist_ignore_space
 setopt hist_ignore_all_dups
 setopt hist_ignore_dups
