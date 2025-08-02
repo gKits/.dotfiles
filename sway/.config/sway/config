@@ -10,6 +10,9 @@ set $right l
 # Terminal emulator
 set $term alacritty
 
+# Locker
+set $lock ~/.local/bin/blurlock
+
 # Application launcher
 set $menu wofi --show drun
 
