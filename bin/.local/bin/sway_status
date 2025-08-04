@@ -131,8 +131,9 @@ battery_charge() {
     battery_charge_icon="󰂄"
     if [ $battery_status = "discharging" ]; then
         battery_charge_num=${battery_charge%\%}
-        battery_charge_icon=${battery_charge_icons[$(($battery_charge_num / 10))]}
-        color=${colors[$((1 + $battery_charge_num / 10))]}
+        idx=$(($battery_charge_num / 10))
+        battery_charge_icon=${battery_charge_icons[idx]}
+        color=${colors[idx + 1]}
     fi
 
     if [ -z $color ]; then
