@@ -77,23 +77,23 @@ handle_options() {
 }
 
 music_player() {
-    media_artist=$(playerctl metadata artist)
-    media_song=$(playerctl metadata title)
+    media_info="$(playerctl metadata artist) - $(playerctl metadata title)"
     player_status=$(playerctl status)
+
+    if [ ${#media_info} -gt 30 ]; then
+        media_info="${media_info:0:27}..."
+    fi
 
     if [ "$player_status" = "Playing" ]; then
         song_status='▶'
     elif [ "$player_status" = "Paused" ]; then
         song_status='⏸'
     else
+        media_info="-"
         song_status='⏹'
     fi
 
-    if [ ${#media_song} -gt 25 ]; then
-        media_song="${media_song:0:22}..."
-    fi
-
-    echo " $song_status $media_artist - $media_song"
+    echo " $song_status $media_info"
 }
 
 network() {
@@ -143,12 +143,12 @@ volume() {
     fi
 
     if [ "$audio_is_muted" = "true" ]; then
-        audio_active=''
+        audio_active='󰖁'
     else
-        audio_active=''
+        audio_active='󰕾'
     fi
 
-    echo "$audio_active $audio_volume%"
+    printf "%3s%% $audio_active" $audio_volume
 }
 
 battery_charge() {
@@ -169,9 +169,9 @@ battery_charge() {
     fi
 
     if [ -z $color ]; then
-        echo "$battery_charge $battery_charge_icon"
+        printf "%3s%% $battery_charge_icon" $battery_charge
     else
-        echo "<span foreground='$color'>$battery_charge $battery_charge_icon</span>"
+        printf "<span foreground='$color'>%4s $battery_charge_icon</span>" $battery_charge
     fi
 }
 
