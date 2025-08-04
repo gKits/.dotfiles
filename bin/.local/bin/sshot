@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/sh
 if [ ! -d ~/Images/Screenshots ]; then
     mkdir -p ~/Images/Screenshots;
 fi
