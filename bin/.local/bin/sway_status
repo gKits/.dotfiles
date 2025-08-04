@@ -130,8 +130,8 @@ network() {
     fi
 }
 
-loadavg() {
-    echo " $(cat /proc/loadavg | awk -F ' ' '{print $2}')"
+system_monitor() {
+    echo "$(cat /proc/loadavg | awk -F ' ' '{print $2}')  $(free | awk '/Mem:/ {printf "%3d%%\n", $3/$2*100}') " 
 }
 
 volume() {
@@ -180,4 +180,4 @@ datetime() {
 }
 
 handle_options "$@"
-echo "$(music_player) | $(network) | $(loadavg) | $(volume) | $(battery_charge) | $(datetime)"
+echo "$(music_player) | $(network) | $(system_monitor) | $(volume) | $(battery_charge) | $(datetime)"
