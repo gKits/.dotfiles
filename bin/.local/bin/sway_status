@@ -1,15 +1,17 @@
 #!/bin/sh
 
-notice="yellow"
-warning="orange"
+low="yellow"
+medium="orange"
+high="orangered"
 critical="red"
 
 usage() {
     echo "Usage: $0 [OPTIONS]"
     echo "Options:"
     echo "-h|--help             Print this usage message"
-    echo "   --notice COLOR     Specify a color for notice events (default: yellow)"
-    echo "   --warning COLOR    Specify a color for warning events (default: orange)"
+    echo "   --low COLOR        Specify a color for low events (default: yellow)"
+    echo "   --medium COLOR     Specify a color for medium events (default: orange)"
+    echo "   --high COLOR       Specify a color for high events (default: orangered)"
     echo "   --critical COLOR   Specify a color for critical events (default: red)"
 }
 
@@ -28,22 +30,22 @@ handle_options() {
                 usage
                 exit 0
             ;;
-            --notice*)
+            --medium*)
                 if ! has_argument $@; then
-                    echo "color for notice not specified" >&2
+                    echo "color for medium not specified" >&2
                     usage
                     exit 1
                 fi
-                notice=$(extract_argument $@)
+                medium=$(extract_argument $@)
                 shift
             ;;
-            --warning*)
+            --high*)
                 if ! has_argument $@; then
-                    echo "color for warning not specified" >&2
+                    echo "color for high not specified" >&2
                     usage
                     exit 1
                 fi
-                warning=$(extract_argument $@)
+                high=$(extract_argument $@)
                 shift
             ;;
             --critical*)
@@ -125,7 +127,7 @@ battery_charge() {
     battery_status=$(upower --show-info $(upower --enumerate | grep 'BAT') | grep -E "state" | awk '{print $2}')
 
     battery_charge_icons=( "󰂎" "󰁺" "󰁻" "󰁼" "󰁽" "󰁾" "󰁿" "󰂀" "󰂁" "󰂂" "󰁹" )
-    colors=( "" $critical $warning $notice )
+    colors=( "" $critical $high $medium $low )
     battery_charge_icon="󰂄"
     if [ $battery_status = "discharging" ]; then
         battery_charge_num=${battery_charge%\%}
