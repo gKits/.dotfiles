@@ -67,8 +67,6 @@ handle_options() {
     done
 }
 
-handle_options "$@"
-
 music_player() {
     media_artist=$(playerctl metadata artist)
     media_song=$(playerctl metadata title)
@@ -147,5 +145,5 @@ datetime() {
     echo " $(date '+%d %b') 󰥔 $(date '+%H:%M')"
 }
 
-
+handle_options "$@"
 echo "$(music_player) | $(network) | $(loadavg) | $(volume) | $(battery_charge) | $(datetime)"
