@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-git -C $HOME/.dotfiles pull --recures-submodules
+git -C $HOME/.dotfiles pull --recurse-submodules
