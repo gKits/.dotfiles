@@ -169,7 +169,7 @@ battery_charge() {
     fi
 
     if [ -z $color ]; then
-        printf "%3s%% $battery_charge_icon" $battery_charge
+        printf "%4s $battery_charge_icon" $battery_charge
     else
         printf "<span foreground='$color'>%4s $battery_charge_icon</span>" $battery_charge
     fi
