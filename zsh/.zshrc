@@ -61,7 +61,7 @@ alias dps='docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Image}}\t{{.ID}
 
 
 # environment variables
-export EDITOR=nvim
+export EDITOR=$(which nvim)
 
 ## wayland
 export XDG_CURRENT_DESKTOP=sway
