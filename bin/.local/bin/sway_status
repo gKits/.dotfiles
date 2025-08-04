@@ -30,6 +30,15 @@ handle_options() {
                 usage
                 exit 0
             ;;
+            --low*)
+                if ! has_argument $@; then
+                    echo "color for low not specified" >&2
+                    usage
+                    exit 1
+                fi
+                low=$(extract_argument $@)
+                shift
+            ;;
             --medium*)
                 if ! has_argument $@; then
                     echo "color for medium not specified" >&2
