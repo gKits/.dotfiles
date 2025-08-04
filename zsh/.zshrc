@@ -77,5 +77,8 @@ export GOLINES_LENGTH=120
 export PATH=$HOME/.local/scripts:$PATH
 export PATH=$HOME/.local/bin:$PATH
 
+# To override existing or add system specific configs add a file called ~/.override.zsh.
+[[ ! -f ~/.override.zsh ]] || source ~/.override.zsh
+
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
