@@ -19,16 +19,8 @@ return {
             },
         }, neotest_ns)
 
-        local nt = require("neotest")
-
-        require("neodev").setup({
-            library = {
-                plugins = { "neotest" },
-                types = true,
-            },
-        })
-
-        nt.setup({
+        local neotest = require("neotest")
+        neotest.setup({
             adapters = {
                 require("neotest-go")({
                     experimental = {
@@ -39,8 +31,8 @@ return {
             },
         })
 
-        vim.keymap.set("n", "<leader>tt", nt.run.run, { desc = "Run nearest test" })
-        vim.keymap.set("n", "<leader>tw", nt.watch.toggle, { desc = "Toggle test watching" })
+        vim.keymap.set("n", "<leader>tt", neotest.run.run, { desc = "Run nearest test" })
+        vim.keymap.set("n", "<leader>tw", neotest.watch.toggle, { desc = "Toggle test watching" })
         vim.keymap.set(
             "n",
             "<leader>ta",
@@ -55,7 +47,7 @@ return {
         )
         vim.keymap.set("n", "<leader>to", "<CMD>Neotest output<CR>", { desc = "show test output" })
         vim.keymap.set("n", "<leader>tO", "<CMD>Neotest output-panel<CR>", { desc = "show test output panel" })
-        vim.keymap.set("n", "]t", nt.jump.next, { desc = "Jump to next test case" })
-        vim.keymap.set("n", "[t", nt.jump.prev, { desc = "Jump to previous test case" })
+        vim.keymap.set("n", "]t", neotest.jump.next, { desc = "Jump to next test case" })
+        vim.keymap.set("n", "[t", neotest.jump.prev, { desc = "Jump to previous test case" })
     end,
 }
