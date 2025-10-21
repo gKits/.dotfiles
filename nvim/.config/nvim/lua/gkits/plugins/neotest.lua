@@ -31,23 +31,17 @@ return {
             },
         })
 
-        vim.keymap.set("n", "<leader>tt", neotest.run.run, { desc = "Run nearest test" })
-        vim.keymap.set("n", "<leader>tw", neotest.watch.toggle, { desc = "Toggle test watching" })
-        vim.keymap.set(
-            "n",
-            "<leader>ta",
-            "<CMD>lua require('neotest').run.run(vim.fn.expand('%'))<CR>",
-            { desc = "Run all tests in current file" }
-        )
-        vim.keymap.set(
-            "n",
-            "<leader>td",
-            "<CMD>lua require('neotest').run.run({ strategy = 'dap' })<CR>",
-            { desc = "Debug nearest test" }
-        )
-        vim.keymap.set("n", "<leader>to", "<CMD>Neotest output<CR>", { desc = "show test output" })
-        vim.keymap.set("n", "<leader>tO", "<CMD>Neotest output-panel<CR>", { desc = "show test output panel" })
-        vim.keymap.set("n", "]t", neotest.jump.next, { desc = "Jump to next test case" })
-        vim.keymap.set("n", "[t", neotest.jump.prev, { desc = "Jump to previous test case" })
+        local function keymap(mode, l, r, desc)
+            vim.keymap.set(mode, l, r, { desc = desc })
+        end
+        keymap("n", "<leader>tt", neotest.run.run, "Run nearest test")
+        keymap("n", "<leader>tw", neotest.watch.toggle, "Toggle test watching")
+        keymap("n", "<leader>ta", "<CMD>lua require('neotest').run.run(vim.fn.expand('%'))<CR>",
+            "Run all tests in current file")
+        keymap("n", "<leader>td", "<CMD>lua require('neotest').run.run({ strategy = 'dap' })<CR>", "Debug nearest test")
+        keymap("n", "<leader>to", "<CMD>Neotest output<CR>", "show test output")
+        keymap("n", "<leader>tO", "<CMD>Neotest output-panel<CR>", "show test output panel")
+        keymap("n", "]t", neotest.jump.next, "Jump to next test case")
+        keymap("n", "[t", neotest.jump.prev, "Jump to previous test case")
     end,
 }

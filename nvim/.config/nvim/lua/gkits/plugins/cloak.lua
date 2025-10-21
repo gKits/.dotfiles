@@ -30,6 +30,6 @@ return {
             },
         })
 
-        -- vim.keymap.set("n", "<leader>eC", cloak.toggle, { desc = "[e]nable [C]loak" })
+        vim.keymap.set("n", "<leader>eC", cloak.toggle, { desc = "[e]nable [C]loak" })
     end,
 }

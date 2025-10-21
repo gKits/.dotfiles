@@ -34,21 +34,23 @@ return {
 
         telescope.load_extension("fzf")
 
-        local keymap = vim.keymap.set
+        local function keymap(mode, l, r, desc)
+            vim.keymap.set(mode, l, r, { desc = desc })
+        end
 
-        keymap("n", "<leader>sf", builtin.find_files, { desc = "[s]earch [f]iles" })
-        keymap("n", "<leader>sr", builtin.git_files, { desc = "[s]earch git [r]epository" })
-        keymap("n", "<leader>?", builtin.find_files, { desc = "Search recently opened files" })
-        keymap("n", "<leader>sg", builtin.live_grep, { desc = "[s]earch with live [g]rep in cwd" })
-        keymap("n", "<leader>sc", builtin.grep_string, { desc = "[s]earch string under [c]ursor in cwd" })
-        keymap("n", "<leader>sd", builtin.diagnostics, { desc = "[s]earch in [d]iagnostics" })
-        keymap("n", "<leader>sh", builtin.help_tags, { desc = "[s]earch [h]elp" })
-        keymap("n", "<leader><space>", require("telescope.builtin").buffers, { desc = "Search existing buffers" })
+        keymap("n", "<leader>sf", builtin.find_files, "[s]earch [f]iles")
+        keymap("n", "<leader>sr", builtin.git_files, "[s]earch git [r]epository")
+        keymap("n", "<leader>?", builtin.find_files, "Search recently opened files")
+        keymap("n", "<leader>sg", builtin.live_grep, "[s]earch with live [g]rep in cwd")
+        keymap("n", "<leader>sc", builtin.grep_string, "[s]earch string under [c]ursor in cwd")
+        keymap("n", "<leader>sd", builtin.diagnostics, "[s]earch in [d]iagnostics")
+        keymap("n", "<leader>sh", builtin.help_tags, "[s]earch [h]elp")
+        keymap("n", "<leader><space>", require("telescope.builtin").buffers, "Search existing buffers")
         keymap("n", "<leader>/", function()
             builtin.current_buffer_fuzzy_find(themes.get_dropdown({
                 winblend = 10,
                 previewer = false,
             }))
-        end, { desc = "Fuzzily search in current buffer" })
+        end, "Fuzzily search in current buffer")
     end,
 }

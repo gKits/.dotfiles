@@ -15,14 +15,15 @@ return {
             formatters_by_ft = {
                 go = { "gofumpt", "goimports", "golines" },
                 templ = { "goimports", "templ" },
-                -- lua = { "stylua" },
                 json = { "prettierd" },
                 python = { "ruff" },
                 html = { "prettierd" },
-                -- markdown = { "prettierd" },
+                markdown = { "prettierd" },
                 yaml = { "prettierd" },
                 typescript = { "prettierd" },
+                typescriptreact = { "prettierd" },
                 javascript = { "prettierd" },
+                javascriptreact = { "prettierd" },
             },
             format_on_save = {
                 lsp_fallback = true,

@@ -21,14 +21,18 @@ return {
             },
         })
 
-        vim.keymap.set("n", "<F5>", dap.continue)
-        vim.keymap.set("n", "<F1>", dap.step_into)
-        vim.keymap.set("n", "<F2>", dap.step_over)
-        vim.keymap.set("n", "<F3>", dap.step_out)
-        vim.keymap.set("n", "<leader>b", dap.toggle_breakpoint)
-        vim.keymap.set("n", "<leader>B", function()
+        local function keymap(mode, l, r, desc)
+            vim.keymap.set(mode, l, r, { silent = true, desc = desc })
+        end
+
+        keymap("n", "<F5>", dap.continue, "Debug continue")
+        keymap("n", "<F1>", dap.step_into, "Debug step into")
+        keymap("n", "<F2>", dap.step_over, "Debug step over")
+        keymap("n", "<F3>", dap.step_out, "Debug step out")
+        keymap("n", "<leader>b", dap.toggle_breakpoint, "Debug toggle breakpoint")
+        keymap("n", "<leader>B", function()
             dap.set_breakpoint(vim.fn.input("Breakpoint condition: "))
-        end)
+        end, "Debug toggle breakpoint with condition")
 
         dapui.setup({
             icons = { expanded = "▾", collapsed = "▸", current_frame = "*" },
