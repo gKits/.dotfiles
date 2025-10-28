@@ -31,12 +31,15 @@ return {
             "WhoIsSethDaniel/mason-tool-installer.nvim",
             opts = {
                 ensure_installed = {
-                    "goimports",
-                    "golines",
                     "delve",
+                    "goimports",
                     "golangci-lint",
+                    "golines",
+                    "gomodifytags",
                     "jsonlint",
                     "prettierd",
+                    "shellcheck",
+                    "stylua",
                 },
             },
         },
