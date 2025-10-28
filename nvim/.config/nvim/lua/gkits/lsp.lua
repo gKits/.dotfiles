@@ -16,13 +16,16 @@ vim.api.nvim_create_autocmd("LspAttach", {
         keymap("n", "<leader>e", vim.diagnostic.open_float, "Open floating diagnostics message")
         keymap("n", "<leader>q", vim.diagnostic.setloclist, "Show line diagnostics")
         keymap("n", "K", vim.lsp.buf.hover, "Show documentation")
-        keymap("n", "[d", function() vim.diagnostic.jump({ count = -1 }) end, "go to previous diagnostic message")
-        keymap("n", "]d", function() vim.diagnostic.jump({ count = 1 }) end, "go to next diagnostic message")
+        keymap("n", "[d", function()
+            vim.diagnostic.jump({ count = -1 })
+        end, "go to previous diagnostic message")
+        keymap("n", "]d", function()
+            vim.diagnostic.jump({ count = 1 })
+        end, "go to next diagnostic message")
         keymap("n", "<leader>q", vim.diagnostic.setloclist, "open diagnostics list")
         keymap("n", "<leader>rsls", "<cmd>LspRestart<CR>", "[r]e[s]tart [ls]p")
-    end
+    end,
 })
-
 
 local severity = vim.diagnostic.severity
 vim.diagnostic.config({
@@ -32,6 +35,6 @@ vim.diagnostic.config({
             [severity.WARN] = " ",
             [severity.HINT] = "󰠠 ",
             [severity.INFO] = " ",
-        }
-    }
+        },
+    },
 })

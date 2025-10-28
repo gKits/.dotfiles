@@ -9,8 +9,8 @@ return {
                 enabled = true,
             },
             styles = {
-                strings = { "italic" }
-            }
+                strings = { "italic" },
+            },
         })
         vim.cmd.colorscheme("catppuccin")
     end,

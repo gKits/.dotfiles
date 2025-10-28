@@ -10,7 +10,7 @@ return {
             "tailwindcss",
             "templ",
             "ts_ls",
-        }
+        },
     },
 
     dependencies = {

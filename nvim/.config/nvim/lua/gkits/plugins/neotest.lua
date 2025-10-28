@@ -36,8 +36,12 @@ return {
         end
         keymap("n", "<leader>tt", neotest.run.run, "Run nearest test")
         keymap("n", "<leader>tw", neotest.watch.toggle, "Toggle test watching")
-        keymap("n", "<leader>ta", "<CMD>lua require('neotest').run.run(vim.fn.expand('%'))<CR>",
-            "Run all tests in current file")
+        keymap(
+            "n",
+            "<leader>ta",
+            "<CMD>lua require('neotest').run.run(vim.fn.expand('%'))<CR>",
+            "Run all tests in current file"
+        )
         keymap("n", "<leader>td", "<CMD>lua require('neotest').run.run({ strategy = 'dap' })<CR>", "Debug nearest test")
         keymap("n", "<leader>to", "<CMD>Neotest output<CR>", "show test output")
         keymap("n", "<leader>tO", "<CMD>Neotest output-panel<CR>", "show test output panel")
