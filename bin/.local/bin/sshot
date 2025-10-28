@@ -2,4 +2,4 @@
 if [ ! -d ~/Images/Screenshots ]; then
     mkdir -p ~/Images/Screenshots;
 fi
-exec grim -g "$(slurp)" ~/Images/Screenshots/$(date +%Y%m%d%H%M%S)_screenshot.png;
+exec grim -g "$(slurp)" ~/Images/Screenshots/"$(date +%Y%m%d%H%M%S)"_screenshot.png;

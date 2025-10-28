@@ -1,19 +1,19 @@
-#!/bin/sh
+#!/bin/bash
 
 images=()
 swaylock_args=()
 
 for output in $(swaymsg -t get_outputs | grep -o '"name": *"[^"]*"' | grep -o '"[^"]*"$' | tr -d '"'); do
   image=$(mktemp --suffix=.png)
-  images+=($image)
-  swaylock_args+=(-i $output:$image)
-  grim -o $output $image
+  images+=("$image")
+  swaylock_args+=(-i "$output":"$image")
+  grim -o "$output" "$image"
 done
 
-magick ${images[@]} -scale 5% -scale 2000% ${images[@]} >/dev/null 2>&1
-if [ $? -eq 0 ]; then
-    swaylock ${swaylock_args[@]} -f -s center
+res=$(magick "${images[@]}" -scale 5% -scale 2000% "${images[@]}")
+if [ "$res" -eq 0 ]; then
+    swaylock "${swaylock_args[@]}" -f -s center
 else
     swaylock -f -c 000000 -s center
 fi
-rm ${images[@]}
+rm "${images[@]}"

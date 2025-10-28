@@ -1,9 +1,10 @@
-# !/usr/bin/env bash
-pushd $HOME/.dotfiles
+#!/usr/bin/env bash
+
+pushd "$HOME"/.dotfiles
 for dir in ./*/
 do
     echo "stowing $(basename "$dir")"
-    stow -D $(basename "$dir")
-    stow $(basename "$dir")
+    stow -D "$(basename "$dir")"
+    stow "$(basename "$dir")"
 done
 popd

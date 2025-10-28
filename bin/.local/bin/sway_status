@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 low="yellow"
 medium="orange"
@@ -31,39 +31,39 @@ handle_options() {
                 exit 0
             ;;
             --low*)
-                if ! has_argument $@; then
+                if ! has_argument "$@"; then
                     echo "color for low not specified" >&2
                     usage
                     exit 1
                 fi
-                low=$(extract_argument $@)
+                low=$(extract_argument "$@")
                 shift
             ;;
             --medium*)
-                if ! has_argument $@; then
+                if ! has_argument "$@"; then
                     echo "color for medium not specified" >&2
                     usage
                     exit 1
                 fi
-                medium=$(extract_argument $@)
+                medium=$(extract_argument "$@")
                 shift
             ;;
             --high*)
-                if ! has_argument $@; then
+                if ! has_argument "$@"; then
                     echo "color for high not specified" >&2
                     usage
                     exit 1
                 fi
-                high=$(extract_argument $@)
+                high=$(extract_argument "$@")
                 shift
             ;;
             --critical*)
-                if ! has_argument $@; then
+                if ! has_argument "$@"; then
                     echo "color for critical not specified" >&2
                     usage
                     exit 1
                 fi
-                critical=$(extract_argument $@)
+                critical=$(extract_argument "$@")
                 shift
             ;;
             *)
@@ -98,32 +98,32 @@ music_player() {
 
 network() {
     network=$(ip route get 1.1.1.1 | grep -Po '(?<=dev\s)\w+' | cut -f1 -d ' ')
-    interface=$(dmesg | grep $network | grep renamed | awk 'NF>1{print $NF}')
+    interface=$(dmesg | grep "$network" | grep renamed | awk 'NF>1{print $NF}')
 
     wireless=$(ip route get 8.8.8.8 | grep -Po 'dev \K\w+' | grep -qFf - /proc/net/wireless && echo 1 || echo 0)
 
-    if ! [ $network ]; then
+    if ! [ "$network" ]; then
         network_status="󰲜"
         color=$critical
     else
         network_status="󰲝"
-        if [ -n $wireless ]; then
-            interface=$(nmcli -g $(nmcli -g connection.type c s $network).ssid c s $network)
+        if [ -n "$wireless" ]; then
+            interface=$(nmcli -g "$(nmcli -g connection.type c s "$network")".ssid c s "$network")
             signal=$(nmcli -f IN-USE,SIGNAL,SSID device wifi | awk '/^\*/{if (NR!=1) {print $2}}')
 
             icons=( "󰣾" "󰣴" "󰣶" "󰣸" "󰣺" )
-            colors=( "" $critical $high $medium $low )
-            if [ $signal -ge 90 ]; then
+            colors=( "" "$critical" "$high" "$medium" "$low" )
+            if [ "$signal" -ge 90 ]; then
                 signal=100
             fi
-            idx=$(($signal / 25))
+            idx=$((signal / 25))
             network_status=${icons[idx]}
-            if [ $signal -lt 50 ]; then
+            if [ "$signal" -lt 50 ]; then
                 color=${colors[$((1 + signal / (49 / 3)))]}
             fi
         fi
     fi
-    if [ -z $color ]; then
+    if [ -z "$color" ]; then
         echo "$network_status $interface"
     else
         echo "<span foreground='$color'>$network_status $interface</span>"
@@ -135,8 +135,8 @@ system_monitor() {
 }
 
 volume() {
-    audio_volume=$(pamixer --sink `pactl list sinks short | grep RUNNING | awk '{print $1}'` --get-volume)
-    audio_is_muted=$(pamixer --sink `pactl list sinks short | grep RUNNING | awk '{print $1}'` --get-mute)
+    audio_volume=$(pamixer --sink "$(pactl list sinks short | grep RUNNING | awk '{print $1}')" --get-volume)
+    audio_is_muted=$(pamixer --sink "$(pactl list sinks short | grep RUNNING | awk '{print $1}')" --get-mute)
 
     if [ "$audio_volume" = "" ]; then
         audio_volume="0"
@@ -148,30 +148,30 @@ volume() {
         audio_active='󰕾'
     fi
 
-    printf "%3s%% $audio_active" $audio_volume
+    printf "%3s%% $audio_active" "$audio_volume"
 }
 
 battery_charge() {
-    battery_charge=$(upower --show-info $(upower --enumerate | grep 'BAT') | grep -E "percentage" | awk '{print $2}')
-    battery_status=$(upower --show-info $(upower --enumerate | grep 'BAT') | grep -E "state" | awk '{print $2}')
+    battery_charge=$(upower --show-info "$(upower --enumerate | grep 'BAT')" | grep -E "percentage" | awk '{print $2}')
+    battery_status=$(upower --show-info "$(upower --enumerate | grep 'BAT')" | grep -E "state" | awk '{print $2}')
 
     battery_charge_icons=( "󰂎" "󰁺" "󰁻" "󰁼" "󰁽" "󰁾" "󰁿" "󰂀" "󰂁" "󰂂" "󰁹" )
-    colors=( "" $critical $high $medium $low )
+    colors=( "" "$critical" "$high" "$medium" "$low" )
     battery_charge_icon="󰂄"
-    if [ $battery_status = "discharging" ]; then
+    if [ "$battery_status" = "discharging" ]; then
         battery_charge_num=${battery_charge%\%}
-        if [ battery_charge_num -ge 95 ]; then
+        if [ "$battery_charge_num" -ge 95 ]; then
             battery_charge_num=100
         fi
-        idx=$(($battery_charge_num / 10))
+        idx=$((battery_charge_num / 10))
         battery_charge_icon=${battery_charge_icons[idx]}
         color=${colors[idx + 1]}
     fi
 
-    if [ -z $color ]; then
-        printf "%4s $battery_charge_icon" $battery_charge
+    if [ -z "$color" ]; then
+        printf "%4s $battery_charge_icon" "$battery_charge"
     else
-        printf "<span foreground='$color'>%4s $battery_charge_icon</span>" $battery_charge
+        printf "<span foreground='$color'>%4s $battery_charge_icon</span>" "$battery_charge"
     fi
 }
 
