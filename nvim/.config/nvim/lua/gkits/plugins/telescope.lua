@@ -1,56 +1,93 @@
 return {
     "nvim-telescope/telescope.nvim",
+    config = {
+        extensions = {
+            fzf = {
+                fuzzy = true,
+                override_generic_sorter = true,
+                override_file_sort = true,
+                case_mode = "smart_case",
+            },
+        },
+        defaults = {
+            path_display = { "truncate" },
+            mappings = {
+                i = {
+                    ["<C-k>"] = require("telescope.actions").move_selection_previous,
+                    ["<C-j>"] = require("telescope.actions").move_selection_next,
+                },
+            },
+        },
+        path_display = { "truncate" },
+    },
+    keys = {
+        {
+            "<leader>sf",
+            require("telescope.builtin").find_files,
+            mode = "n",
+            desc = "[s]earch [f]iles",
+        },
+        {
+            "<leader>sr",
+            require("telescope.builtin").git_files,
+            mode = "n",
+            desc = "[s]earch git [r]epository",
+        },
+        {
+            "<leader>?",
+            require("telescope.builtin").find_files,
+            mode = "n",
+            desc = "Search recently opened files",
+        },
+        {
+            "<leader>sg",
+            require("telescope.builtin").live_grep,
+            mode = "n",
+            desc = "[s]earch with live [g]rep in cwd",
+        },
+        {
+            "<leader>sc",
+            require("telescope.builtin").grep_string,
+            mode = "n",
+            desc = "[s]earch string under [c]ursor in cwd",
+        },
+        {
+            "<leader>sd",
+            require("telescope.builtin").diagnostics,
+            mode = "n",
+            desc = "[s]earch in [d]iagnostics",
+        },
+        {
+            "<leader>sh",
+            require("telescope.builtin").help_tags,
+            mode = "n",
+            desc = "[s]earch [h]elp",
+        },
+        {
+            "<leader><space>",
+            require("telescope.builtin").buffers,
+            mode = "n",
+            desc = "Search existing buffers",
+        },
+        {
+            "<leader>/",
+            function()
+                require("telescope.builtin").current_buffer_fuzzy_find(
+                    require("telescope.builtin").get_dropdown({ winblend = 10, previewer = false })
+                )
+            end,
+            mode = "n",
+            desc = "Fuzzily search in current buffer",
+        },
+    },
     dependencies = {
         "nvim-lua/plenary.nvim",
-        { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
+        {
+            "nvim-telescope/telescope-fzf-native.nvim",
+            build = "make",
+            config = function()
+                require("telescope").load_extension("fzf")
+            end,
+        },
     },
-
-    config = function()
-        local telescope = require("telescope")
-        local builtin = require("telescope.builtin")
-        local actions = require("telescope.actions")
-        local themes = require("telescope.themes")
-
-        telescope.setup({
-            extensions = {
-                fzf = {
-                    fuzzy = true,
-                    override_generic_sorter = true,
-                    override_file_sort = true,
-                    case_mode = "smart_case",
-                },
-            },
-            defaults = {
-                path_display = { "truncate" },
-                mappings = {
-                    i = {
-                        ["<C-k>"] = actions.move_selection_previous,
-                        ["<C-j>"] = actions.move_selection_next,
-                    },
-                },
-            },
-            path_display = { "truncate" },
-        })
-
-        telescope.load_extension("fzf")
-
-        local function keymap(mode, l, r, desc)
-            vim.keymap.set(mode, l, r, { desc = desc })
-        end
-
-        keymap("n", "<leader>sf", builtin.find_files, "[s]earch [f]iles")
-        keymap("n", "<leader>sr", builtin.git_files, "[s]earch git [r]epository")
-        keymap("n", "<leader>?", builtin.find_files, "Search recently opened files")
-        keymap("n", "<leader>sg", builtin.live_grep, "[s]earch with live [g]rep in cwd")
-        keymap("n", "<leader>sc", builtin.grep_string, "[s]earch string under [c]ursor in cwd")
-        keymap("n", "<leader>sd", builtin.diagnostics, "[s]earch in [d]iagnostics")
-        keymap("n", "<leader>sh", builtin.help_tags, "[s]earch [h]elp")
-        keymap("n", "<leader><space>", require("telescope.builtin").buffers, "Search existing buffers")
-        keymap("n", "<leader>/", function()
-            builtin.current_buffer_fuzzy_find(themes.get_dropdown({
-                winblend = 10,
-                previewer = false,
-            }))
-        end, "Fuzzily search in current buffer")
-    end,
 }

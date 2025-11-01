@@ -1,51 +1,96 @@
+---@diagnostic disable: missing-fields
 return {
     "nvim-neotest/neotest",
     dependencies = {
         "nvim-neotest/nvim-nio",
         "nvim-lua/plenary.nvim",
         "antoinemadec/FixCursorHold.nvim",
-        "nvim-treesitter/nvim-treesitter",
+        {
+            "nvim-treesitter/nvim-treesitter",
+            branch = "main",
+            build = function()
+                vim.cmd(":TSUpdate go")
+            end,
+        },
         -- Adapters
-        "nvim-neotest/neotest-go",
+        -- "nvim-neotest/neotest-go",
+        {
+            "fredrikaverpil/neotest-golang",
+            version = "*",
+            lazy = false,
+        },
     },
     config = function()
-        local neotest_ns = vim.api.nvim_create_namespace("neotest")
-        vim.diagnostic.config({
-            virtual_tets = {
-                format = function(diagnostic)
-                    local message = diagnostic.message:gsub("\n", " "):gsub("\t", " "):gsub("%s+", " "):gsub("^%s+", "")
-                    return message
-                end,
-            },
-        }, neotest_ns)
-
-        local neotest = require("neotest")
-        neotest.setup({
+        require("neotest").setup({
             adapters = {
-                require("neotest-go")({
-                    experimental = {
-                        test_table = true,
-                    },
-                    args = { "-count=1", "-timeout=60s" },
-                }),
+                require("neotest-golang")({ runner = "gotestsum", warn_test_name_dupes = false }),
             },
         })
-
-        local function keymap(mode, l, r, desc)
-            vim.keymap.set(mode, l, r, { desc = desc })
-        end
-        keymap("n", "<leader>tt", neotest.run.run, "Run nearest test")
-        keymap("n", "<leader>tw", neotest.watch.toggle, "Toggle test watching")
-        keymap(
-            "n",
-            "<leader>ta",
-            "<CMD>lua require('neotest').run.run(vim.fn.expand('%'))<CR>",
-            "Run all tests in current file"
-        )
-        keymap("n", "<leader>td", "<CMD>lua require('neotest').run.run({ strategy = 'dap' })<CR>", "Debug nearest test")
-        keymap("n", "<leader>to", "<CMD>Neotest output<CR>", "show test output")
-        keymap("n", "<leader>tO", "<CMD>Neotest output-panel<CR>", "show test output panel")
-        keymap("n", "]t", neotest.jump.next, "Jump to next test case")
-        keymap("n", "[t", neotest.jump.prev, "Jump to previous test case")
     end,
+    keys = {
+        {
+            "<leader>tt",
+            function()
+                require("neotest").run.run()
+            end,
+            mode = "n",
+            desc = "Run nearest test",
+        },
+        {
+            "<leader>tw",
+            function()
+                require("neotest").watch.toggle()
+            end,
+            mode = "n",
+            desc = "Toggle test watching",
+        },
+        {
+            "<leader>ta",
+            function()
+                require("neotest").run.run(vim.fn.expand("%"))
+            end,
+            mode = "n",
+            desc = "Run all tests in current file",
+        },
+        {
+            "<leader>td",
+            function()
+                require("neotest").run.run({ strategy = "dap" })
+            end,
+            mode = "n",
+            desc = "Debug nearest test",
+        },
+        {
+            "<leader>to",
+            function()
+                require("neotest").output()
+            end,
+            mode = "n",
+            desc = "show test output",
+        },
+        {
+            "<leader>tO",
+            function()
+                require("neotest").output_panel()
+            end,
+            mode = "n",
+            desc = "show test output panel",
+        },
+        {
+            "]t",
+            function()
+                require("neotest").jump.next()
+            end,
+            mode = "n",
+            desc = "Jump to next test case",
+        },
+        {
+            "[t",
+            function()
+                require("neotest").jump.prev()
+            end,
+            mode = "n",
+            desc = "Jump to previous test case",
+        },
+    },
 }

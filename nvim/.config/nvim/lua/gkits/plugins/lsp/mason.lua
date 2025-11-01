@@ -36,6 +36,7 @@ return {
                     "golangci-lint",
                     "golines",
                     "gomodifytags",
+                    "gotestsum",
                     "jsonlint",
                     "prettierd",
                     "shellcheck",

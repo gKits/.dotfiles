@@ -1,31 +1,11 @@
 return {
-    "nvim-treesitter/nvim-treesitter",
-    dependencies = {
-        "nvim-treesitter/nvim-treesitter-textobjects",
-        "windwp/nvim-ts-autotag",
-    },
-    config = function()
-        pcall(require("nvim-treesitter.install").update({ with_sync = true }))
-
-        local treesitter = require("nvim-treesitter.configs")
-        treesitter.setup({
-            highlight = {
-                enable = true,
-            },
-
-            autotag = {
-                enable = true,
-            },
-
-            ignore_install = {},
-            modules = {},
-
-            indent = {
-                enable = true,
-                disable = { "python" },
-            },
-
-            ensure_installed = {
+    {
+        "nvim-treesitter/nvim-treesitter",
+        branch = "main",
+        lazy = false,
+        build = ":TSUpdate",
+        config = function()
+            local ensure_installed = {
                 "go",
                 "lua",
                 "markdown",
@@ -36,64 +16,127 @@ return {
                 "bash",
                 "yaml",
                 "json",
-            },
-            sync_install = true,
+            }
 
-            auto_install = false,
+            if ensure_installed and #ensure_installed > 0 then
+                require("nvim-treesitter").install(ensure_installed)
+                for _, parser in ipairs(ensure_installed) do
+                    local filetypes = parser
+                    vim.treesitter.language.register(parser, filetypes)
 
-            incremental_selection = {
-                enable = true,
-                keymaps = {
-                    init_selection = "<C-space>",
-                    node_incremental = "<C-space>",
-                    scope_incremental = "<C-s>",
-                    node_decremental = "<M-space>",
-                },
-            },
-            textobjects = {
-                select = {
-                    enable = true,
-                    lookahead = true,
+                    vim.api.nvim_create_autocmd({ "FileType" }, {
+                        pattern = filetypes,
+                        callback = function(event)
+                            vim.treesitter.start(event.buf, parser)
+                        end,
+                    })
+                end
+            end
 
-                    keymaps = {
-                        ["aa"] = "@parameter.outer",
-                        ["ia"] = "@parameter.inner",
-                        ["af"] = "@function.outer",
-                        ["if"] = "@function.inner",
-                        ["ac"] = "@class.outer",
-                        ["ic"] = "@class.inner",
-                    },
-                    move = {
-                        enable = true,
-                        set_jumps = true, -- whether to set jumps in the jumplist
-                        goto_next_start = {
-                            ["]m"] = "@function.outer",
-                            ["]]"] = "@class.outer",
+            vim.api.nvim_create_autocmd({ "BufRead" }, {
+                callback = function(event)
+                    local bufnr = event.buf
+                    local filetype = vim.api.nvim_get_option_value("filetype", { buf = bufnr })
+
+                    if filetype == "" then
+                        return
+                    end
+
+                    for _, filetypes in pairs(ensure_installed) do
+                        local ft_table = type(filetypes) == "table" and filetypes or { filetypes }
+                        if vim.tbl_contains(ft_table, filetype) then
+                            return -- Already handled above
+                        end
+                    end
+
+                    local parser_name = vim.treesitter.language.get_lang(filetype)
+                    if not parser_name then
+                        return
+                    end
+                    local parser_configs = require("nvim-treesitter.parsers")
+                    if not parser_configs[parser_name] then
+                        return
+                    end
+
+                    local parser_installed = pcall(vim.treesitter.get_parser, bufnr, parser_name)
+
+                    if not parser_installed then
+                        require("nvim-treesitter").install({ parser_name }):wait(30000)
+                    end
+
+                    parser_installed = pcall(vim.treesitter.get_parser, bufnr, parser_name)
+
+                    if parser_installed then
+                        vim.treesitter.start(bufnr, parser_name)
+                    end
+                end,
+            })
+        end,
+    },
+    -- {
+    --     "nvim-treesitter/nvim-treesitter-context",
+    --     event = "BufRead",
+    --     dependencies = {
+    --         "nvim-treesitter/nvim-treesitter",
+    --         event = "BufRead",
+    --     },
+    --     opts = {
+    --         multiwindow = true,
+    --     },
+    -- },
+    {
+        {
+            {
+                "nvim-treesitter/nvim-treesitter-textobjects",
+                branch = "main",
+                config = function()
+                    require("nvim-treesitter-textobjects").setup({
+                        select = {
+                            enable = true,
+                            lookahead = true,
+
+                            keymaps = {
+                                ["aa"] = "@parameter.outer",
+                                ["ia"] = "@parameter.inner",
+                                ["af"] = "@function.outer",
+                                ["if"] = "@function.inner",
+                                ["ac"] = "@class.outer",
+                                ["ic"] = "@class.inner",
+                            },
+                            move = {
+                                enable = true,
+                                set_jumps = true, -- whether to set jumps in the jumplist
+                                goto_next_start = {
+                                    ["]m"] = "@function.outer",
+                                    ["]]"] = "@class.outer",
+                                },
+                                goto_next_end = {
+                                    ["]M"] = "@function.outer",
+                                    ["]["] = "@class.outer",
+                                },
+                                goto_previous_start = {
+                                    ["[m"] = "@function.outer",
+                                    ["[["] = "@class.outer",
+                                },
+                                goto_previous_end = {
+                                    ["[M"] = "@function.outer",
+                                    ["[]"] = "@class.outer",
+                                },
+                            },
+                            swap = {
+                                enable = true,
+                                swap_next = {
+                                    ["<leader>a"] = "@parameter.inner",
+                                },
+                                swap_previous = {
+                                    ["<leader>A"] = "@parameter.inner",
+                                },
+                            },
                         },
-                        goto_next_end = {
-                            ["]M"] = "@function.outer",
-                            ["]["] = "@class.outer",
-                        },
-                        goto_previous_start = {
-                            ["[m"] = "@function.outer",
-                            ["[["] = "@class.outer",
-                        },
-                        goto_previous_end = {
-                            ["[M"] = "@function.outer",
-                            ["[]"] = "@class.outer",
-                        },
-                    },
-                    swap = {
-                        enable = true,
-                        swap_next = {
-                            ["<leader>a"] = "@parameter.inner",
-                        },
-                        swap_previous = {
-                            ["<leader>A"] = "@parameter.inner",
-                        },
-                    },
-                },
+                    })
+                end,
             },
-        })
-    end,
+            { "windwp/nvim-ts-autotag" },
+        },
+    },
 }

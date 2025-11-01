@@ -12,13 +12,6 @@ return {
     config = function()
         require("telescope").load_extension("git_worktree")
 
-        vim.keymap.set("n", "<Leader>gw", require("telescope").extensions.git_worktree.git_worktree, {
-            desc = "List [g]it [w]orktrees",
-        })
-        vim.keymap.set("n", "<Leader>gW", require("telescope").extensions.git_worktree.create_git_worktree, {
-            desc = "List [g]it [W]orktrees and create new worktree",
-        })
-
         local Hooks = require("git-worktree.hooks")
 
         Hooks.register(Hooks.type.SWITCH, function(path, prev_path)
@@ -30,4 +23,22 @@ return {
             end
         end)
     end,
+    keys = {
+        {
+            "<Leader>gw",
+            function()
+                require("telescope").extensions.git_worktree.git_worktree()
+            end,
+            mode = "n",
+            desc = "List [g]it [w]orktrees",
+        },
+        {
+            "<Leader>gW",
+            function()
+                require("telescope").extensions.git_worktree.create_git_worktree()
+            end,
+            mode = "n",
+            desc = "List [g]it [W]orktrees and create new worktree",
+        },
+    },
 }

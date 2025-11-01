@@ -1,40 +1,64 @@
 return {
     "mfussenegger/nvim-dap",
-    dependencies = {
-        "rcarriga/nvim-dap-ui",
-        "nvim-neotest/nvim-nio",
-        "williamboman/mason.nvim",
-        "jay-babu/mason-nvim-dap.nvim",
-
-        -- Add your own debuggers here
-        "leoluz/nvim-dap-go",
-    },
     config = function()
-        local dap = require("dap")
-        local dapui = require("dapui")
-
-        require("mason-nvim-dap").setup({
-            automatic_setup = true,
-
-            ensure_installed = {
-                "delve",
-            },
-        })
-
-        local function keymap(mode, l, r, desc)
-            vim.keymap.set(mode, l, r, { silent = true, desc = desc })
-        end
-
-        keymap("n", "<F5>", dap.continue, "Debug continue")
-        keymap("n", "<F1>", dap.step_into, "Debug step into")
-        keymap("n", "<F2>", dap.step_over, "Debug step over")
-        keymap("n", "<F3>", dap.step_out, "Debug step out")
-        keymap("n", "<leader>b", dap.toggle_breakpoint, "Debug toggle breakpoint")
-        keymap("n", "<leader>B", function()
-            dap.set_breakpoint(vim.fn.input("Breakpoint condition: "))
-        end, "Debug toggle breakpoint with condition")
-
-        dapui.setup({
+        require("dap").setup()
+        require("dap").listeners.after.event_initialized["dapui_config"] = require("dapui").open
+        require("dap").listeners.before.event_terminated["dapui_config"] = require("dapui").close
+        require("dap").listeners.before.event_exited["dapui_config"] = require("dapui").close
+    end,
+    keys = {
+        {
+            "<F5>",
+            function()
+                require("dap").continue()
+            end,
+            mode = "n",
+            desc = "Debug continue",
+        },
+        {
+            "<F1>",
+            function()
+                require("dap").step_into()
+            end,
+            mode = "n",
+            desc = "Debug step into",
+        },
+        {
+            "<F2>",
+            function()
+                require("dap").step_over()
+            end,
+            mode = "n",
+            desc = "Debug step over",
+        },
+        {
+            "<F3>",
+            function()
+                require("dap").step_out()
+            end,
+            mode = "n",
+            desc = "Debug step out",
+        },
+        {
+            "<leader>b",
+            function()
+                require("dap").toggle_breakpoint()
+            end,
+            mode = "n",
+            desc = "Debug toggle breakpoint",
+        },
+        {
+            "<leader>B",
+            function()
+                require("dap").set_breakpoint(vim.fn.input("Breakpoint condition: "))
+            end,
+            mode = "n",
+            desc = "Debug toggle breakpoint with condition",
+        },
+    },
+    {
+        "rcarriga/nvim-dap-ui",
+        opts = {
             icons = { expanded = "▾", collapsed = "▸", current_frame = "*" },
             controls = {
                 icons = {
@@ -47,13 +71,22 @@ return {
                     run_last = "▶▶",
                     terminate = "⏹",
                 },
-            },
-        })
+             },
+        }
+    },
+    {
+        "williamboman/mason.nvim",
+        opts = {
+            automatic_setup = true,
 
-        dap.listeners.after.event_initialized["dapui_config"] = dapui.open
-        dap.listeners.before.event_terminated["dapui_config"] = dapui.close
-        dap.listeners.before.event_exited["dapui_config"] = dapui.close
+            ensure_installed = {
+                "delve",
+             },
+        }
+    },
+    "nvim-neotest/nvim-nio",
+    "jay-babu/mason-nvim-dap.nvim",
 
-        require("dap-go").setup()
-    end,
+    -- Add your own debuggers here
+    "leoluz/nvim-dap-go",
 }
