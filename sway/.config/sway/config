@@ -11,7 +11,7 @@ set $right l
 set $term alacritty
 
 # Locker
-set $lock ~/.local/bin/blurlock
+set $lock "swaylock -f -s center"
 
 # Application launcher
 set $menu wofi --show drun
