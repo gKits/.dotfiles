@@ -72,11 +72,6 @@
 	// "id":
 	"reload_style_on_change": true,
 
-	/*--------------------------------------------------------
-	    HINT:
-	    See the modules directory for more config options.
-	--------------------------------------------------------*/
-
 	/*------------------
 	    modules-left
 	------------------*/
@@ -148,7 +143,7 @@
 
 	"memory": {
 		"interval": 10,
-		"format": "󰘚 {percentage}%",
+		"format": " {percentage}%",
 		"format-warning": "󰀧 {percentage}%",
 		"format-critical": "󰀧 {percentage}%",
 		"states": {
