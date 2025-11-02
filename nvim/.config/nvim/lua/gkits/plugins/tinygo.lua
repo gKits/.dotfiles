@@ -1,5 +1,5 @@
 return {
-    -- "pcolladosoto/tinygo.nvim",
-    dir = "~/repos/tinygo.nvim",
+    "pcolladosoto/tinygo.nvim",
+    -- dir = "~/repos/tinygo.nvim",
     opts = {},
 }
