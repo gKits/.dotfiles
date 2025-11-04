@@ -17,11 +17,11 @@ cd .dotfiles
 2. Install all packages provided in `packages.txt`.
 
 ```bash
-xargs sudo zypper in < packages.txt
+xargs paru -Syu < packages.txt
 ```
 
-I use [openSUSE Tumbleweed](https://get.opensuse.org/tumbleweed/) therefore the example given uses `zypper in`.
-You can replace `zypper in` with the install command for the package manager of your choice (eg. `apt install`, `pacman -i`)
+I use [CachyOS](https://cachyos.org/) which is Arch based therefore the example given uses `paru`.
+You can replace `paru -Syu` with the install command for the package manager of your choice (eg. `apt install`)
 
 3. Use the `link` script to create all the symlinks
 
