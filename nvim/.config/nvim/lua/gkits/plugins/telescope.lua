@@ -34,12 +34,6 @@ return {
             desc = "[s]earch git [r]epository",
         },
         {
-            "<leader>?",
-            require("telescope.builtin").find_files,
-            mode = "n",
-            desc = "Search recently opened files",
-        },
-        {
             "<leader>sg",
             require("telescope.builtin").live_grep,
             mode = "n",
