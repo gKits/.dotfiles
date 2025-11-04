@@ -1,6 +1,6 @@
 return {
     "nvim-telescope/telescope.nvim",
-    config = {
+    opts = {
         extensions = {
             fzf = {
                 fuzzy = true,
