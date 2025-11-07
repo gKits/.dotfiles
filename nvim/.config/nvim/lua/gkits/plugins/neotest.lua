@@ -12,8 +12,6 @@ return {
                 vim.cmd(":TSUpdate go")
             end,
         },
-        -- Adapters
-        -- "nvim-neotest/neotest-go",
         {
             "fredrikaverpil/neotest-golang",
             version = "*",
@@ -82,7 +80,7 @@ return {
                 require("neotest").jump.next()
             end,
             mode = "n",
-            desc = "Jump to next test case",
+            desc = "Jump to next [t]est case",
         },
         {
             "[t",
@@ -90,7 +88,23 @@ return {
                 require("neotest").jump.prev()
             end,
             mode = "n",
-            desc = "Jump to previous test case",
+            desc = "Jump to previous [t]est case",
+        },
+        {
+            "]ft",
+            function()
+                require("neotest").jump.next({ status = "failed" })
+            end,
+            mode = "n",
+            desc = "Jump to next [f]ailed [t]est case",
+        },
+        {
+            "[ft",
+            function()
+                require("neotest").jump.prev({ status = "failed" })
+            end,
+            mode = "n",
+            desc = "Jump to previous [f]ailed [t]est case",
         },
     },
 }
