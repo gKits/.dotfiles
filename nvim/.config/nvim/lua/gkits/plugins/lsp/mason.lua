@@ -34,7 +34,6 @@ return {
                     "delve",
                     "goimports",
                     "golangci-lint",
-                    "golines",
                     "gomodifytags",
                     "gotestsum",
                     "jsonlint",

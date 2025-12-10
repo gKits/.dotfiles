@@ -3,14 +3,8 @@ return {
     lazy = true,
     event = { "BufReadPre", "BufNewFile" },
     opts = {
-        formatters = {
-            golines = {
-                command = "golines",
-                args = { "-m", os.getenv("GOLINES_LENGTH") or "120", "--shorten-comments" },
-            },
-        },
         formatters_by_ft = {
-            go = { "gofumpt", "goimports", "golines" },
+            go = { "golangci-lint" },
             templ = { "goimports", "templ" },
             json = { "prettierd" },
             python = { "ruff" },
